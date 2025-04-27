@@ -1,0 +1,33 @@
+.filter-scroll::-webkit-scrollbar {
+	width: 5px;
+}
+.filter-scroll::-webkit-scrollbar-track {
+	background: transparent;
+}
+.filter-scroll::-webkit-scrollbar-thumb {
+	background: #979fad;
+	border-radius: 10px;
+	transition: all 0.3s ease;
+}
+.filter-scroll::-webkit-scrollbar-thumb:hover {
+	background: rgba(151, 159, 173, 0.5);
+}
+
+
+
+[data-slot="table-container"]::-webkit-scrollbar {
+	height: 16px;
+}
+[data-slot="table-container"]::-webkit-scrollbar-track {
+	background: #323232;
+}
+[data-slot="table-container"]::-webkit-scrollbar-thumb {
+	background: #555555;
+	height: 16px;
+	width: 16px !important;
+	border-radius: 2px;
+	transition: all 0.3s ease;
+}
+.booking-table::-webkit-scrollbar-thumb:hover {
+	background: rgba(85, 85, 85, 0.5);
+}
