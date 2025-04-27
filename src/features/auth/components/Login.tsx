@@ -24,7 +24,7 @@ const Login = ({
 		password: "admin",
 	});
 	const [errors, setErrors] = useState<Record<string, string>>({});
-	const [login, { data, error, isLoading }] = useLoginMutation();
+	const [login, { isLoading }] = useLoginMutation();
 	const navigate = useNavigate();
 	const isDisabled =
 		isLoading ||
@@ -69,22 +69,19 @@ const Login = ({
 		}
 
 		try {
-			await login(isValidData.data);
-			if (error) {
-				throw error;
-			}
-			if (data) {
-				navigate("/booking");
-				toast.success("Login successful");
+			const result = await login(isValidData.data).unwrap();
+			if (result.token) {
 				setErrors({});
 				setUserData({
 					email: "admin@akzero.com",
 					password: "admin",
 				});
+				toast.success("Login successful");
+				navigate("/booking");
 			}
 			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 		} catch (error: any) {
-			toast.error(error.data.message);
+			toast.error(error.data?.message || "Login failed");
 		}
 	};
 
@@ -139,7 +136,11 @@ const Login = ({
 								className="w-full text-foreground"
 								disabled={Boolean(isDisabled)}
 							>
-								Login
+								{isLoading ? (
+									<span className="animate-pulse">Logging in...</span>
+								) : (
+									"Login"
+								)}
 							</Button>
 						</div>
 					</form>
