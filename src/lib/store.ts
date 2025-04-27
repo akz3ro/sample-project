@@ -1,10 +1,14 @@
+import authApi from "@/features/auth/redux/authApi";
 import bookingReducer from "@/features/booking/redux/bookingSlice";
 import { configureStore } from "@reduxjs/toolkit";
 
 export const store = configureStore({
 	reducer: {
 		booking: bookingReducer,
+		[authApi.reducerPath]: authApi.reducer,
 	},
+	middleware: (getDefaultMiddleware) =>
+		getDefaultMiddleware().concat(authApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

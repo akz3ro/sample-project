@@ -4,18 +4,23 @@ import {
 	SidebarProvider,
 	SidebarTrigger,
 } from "./components/ui/sidebar";
+import Login from "./features/auth/components/Login";
+import ProtectedRoute from "./features/auth/components/ProtectedRoutes";
 import Booking from "./features/booking/components/Booking";
 import Home from "./features/home/components/Home";
 import { AppSidebar } from "./features/sidebar/components/AppSidebar";
 
 const AppRoutes = () => (
 	<Routes>
+		<Route element={<ProtectedRoute />}>
+			<Route path="/booking" element={<Booking />} />
+			<Route path="/agent" element={<Home title="Agent" />} />
+			<Route path="/supplier" element={<Home title="Supplier" />} />
+			<Route path="/settings" element={<Home title="Settings" />} />
+			<Route path="/help" element={<Home title="Help" />} />
+		</Route>
 		<Route path="/" element={<Home title="Home" />} />
-		<Route path="/booking" element={<Booking />} />
-		<Route path="/agent" element={<Home title="Agent" />} />
-		<Route path="/supplier" element={<Home title="Supplier" />} />
-		<Route path="/settings" element={<Home title="Settings" />} />
-		<Route path="/help" element={<Home title="Help" />} />
+		<Route path="/login" element={<Login />} />
 	</Routes>
 );
 

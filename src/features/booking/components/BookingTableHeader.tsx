@@ -16,7 +16,7 @@ const Menu = ({ name }: { name: string }) => {
 	const isFilter = name === "filters";
 	const [isOpen, setIsOpen] = useState(false);
 	const [isAll, setIsAll] = useState(false);
-	const [selectedItems, setSelectedItems] = useState<string[]>([]); // لحفظ العناصر المحددة
+	const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
 	const items = [
 		{ id: "1", name: "B2B bookings" },
