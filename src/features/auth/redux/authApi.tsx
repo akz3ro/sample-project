@@ -2,7 +2,7 @@ import { createApi, fakeBaseQuery } from "@reduxjs/toolkit/query/react";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 import { type LoginSchemaType, loginSchema } from "../schema/auth.schema";
-
+import { clearAuth, setToken, setUser } from "./authSlice";
 interface JwtPayload {
 	role: string;
 	exp?: number;
@@ -14,7 +14,7 @@ const authApi = createApi({
 	baseQuery: fakeBaseQuery(),
 	endpoints: (builder) => ({
 		login: builder.mutation<{ token: string }, LoginSchemaType>({
-			queryFn: async ({ email, password }) => {
+			queryFn: async ({ email, password }, { dispatch }) => {
 				const realEmail = import.meta.env.VITE_USER_EMAIL;
 				const realPassword = import.meta.env.VITE_USER_PASSWORD;
 
@@ -31,6 +31,8 @@ const authApi = createApi({
 				if (email === realEmail && password === realPassword) {
 					const mockToken = import.meta.env.VITE_JWT_SECRET;
 					Cookies.set("token", mockToken, { expires: 1 });
+					dispatch(setToken(mockToken));
+					dispatch(setUser({ email, password }));
 					return { data: { token: mockToken } };
 				}
 				return {
@@ -46,7 +48,7 @@ const authApi = createApi({
 
 		refreshToken: builder.mutation<{ token: string }, void>({
 			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-			queryFn: async (_arg, _api): Promise<any> => {
+			queryFn: async (_arg, { dispatch }): Promise<any> => {
 				const refreshToken = Cookies.get("token");
 				if (!refreshToken) {
 					return { error: { status: 401, data: { message: "Unauthorized" } } };
@@ -57,6 +59,7 @@ const authApi = createApi({
 					if (decoded) {
 						const mockToken = import.meta.env.VITE_JWT_SECRET;
 						Cookies.set("token", mockToken, { expires: 1 });
+						dispatch(setToken(mockToken));
 						return { data: { token: mockToken } };
 					}
 				} catch (error) {
@@ -67,8 +70,9 @@ const authApi = createApi({
 
 		logout: builder.mutation<void, void>({
 			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-			queryFn: async (_arg, _api): Promise<any> => {
+			queryFn: async (_arg, { dispatch }): Promise<any> => {
 				Cookies.remove("token");
+				dispatch(clearAuth());
 				return { data: {} };
 			},
 		}),
