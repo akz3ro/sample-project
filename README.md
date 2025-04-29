@@ -34,22 +34,22 @@ To get the project running locally, follow these steps:
 
 3. **Install dependencies**:
     ```bash
-    npm install
+    bun install
     ```
 
 4. **Run the project in development mode**:
     ```bash
-    npm run dev
+    bun run dev
     ```
 
     This will start the application at `http://localhost:3000`.
 
 ### 📦 Scripts
 
-- `npm run dev`: Run the project in development mode with Vite.
-- `npm run build`: Build the project using Vite and TypeScript.
-- `npm run lint`: Lint the code with ESLint.
-- `npm run preview`: Preview the built project in a production-like environment.
+- `bun run dev`: Run the project in development mode with Vite.
+- `bun run build`: Build the project using Vite and TypeScript.
+- `bun run lint`: Lint the code with ESLint.
+- `bun run preview`: Preview the built project in a production-like environment.
 
 ### ⚙️ Configuration
 
